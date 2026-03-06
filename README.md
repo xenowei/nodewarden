@@ -54,7 +54,6 @@ English：[`README_EN.md`](./README_EN.md)
 
 ### 一键部署
 
-**部署步骤：**
 
 > **若你只是想快速体验，直接点击第 2 步的一键部署按钮即可；以下步骤主要为了后续长期更新。**
 
@@ -64,8 +63,8 @@ English：[`README_EN.md`](./README_EN.md)
    
     [![Deploy (R2)](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/shuaiplus/NodeWarden)
   
-3. 部署完成后，在同一页面打开 Workers 设置，将 **Git 存储库** 断开连接。
-4. 在同一位置重新连接到第 1 步 Fork 的仓库，并在页面底部将 **名称** 改回 **NodeWarden**。
+3. 部署完成后，在同一页面打开 Workers 设置，将 `Git 存储库` 断开连接。
+4. 在同一位置重新连接到第 1 步 Fork 的仓库，并在页面底部将`名称` 改回 **NodeWarden**。
 5. GitHub 仓库 **NodeWarden2** 可以删除。
 
 <details>
@@ -76,20 +75,22 @@ English：[`README_EN.md`](./README_EN.md)
 >- **R2**：需绑定银行卡；**单个附件 / Send 文件上限 100 MB**（代码限制，可自行修改）；**总量 10 GB 免费**
 >- **KV**：无需绑卡；**单个附件 / Send 文件上限 25 MiB**（Cloudflare 限制，不可修改）；**总量 1 GB 免费**
 >
->1. 先 Fork 本仓库，并命名为 **NodeWarden**。
->2. 打开 GitHub 仓库，进入 `Actions` 页面，运行 **Switch to KV mode**（自动将 [wrangler.toml](./wrangler.toml) 切换为 KV 配置。）
->3. **在你自己的仓库中**点击下面的按钮，在打开的页面中将项目名称改为 **NodeWarden2**，并将 **JWT_SECRET** 设置为 32 位随机字符串。
+>1. 先 Fork 本仓库，并命名为 **NodeWarden**（默认自动填写）
+>2. 进入新仓库，进入 `Actions` 页面，点击 `I understand my workflows, go ahead and enable them`，点击 `Switch to KV mode`，点击`Run Workflow`
+>3. 成功后**在你自己的仓库中**点击下面的按钮，在打开的页面中将项目名称改为 **NodeWarden2**，并将 **JWT_SECRET** 设置为 32 位随机字符串。
 >
 >    [![Deploy (R2)](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/shuaiplus/NodeWarden)
 >
->4. 部署完成后，在同一页面打开 Workers 设置，将 **Git 存储库** 断开连接。
->5. 在同一位置重新连接到第 1 步 Fork 的仓库，并在页面底部将 **名称** 改回 **NodeWarden**。
->6. GitHub 仓库 **NodeWarden2** 可以删除。
+>4. 在同一页面打开 Workers 设置，将 `Git 存储库` 断开连接。
+>5. 返回Github进入Fork后的仓库（NodeWarden），进入 `Actions` 页面，运行`Import KV ID from NodeWarden2`
+>6. 返回cloudflare，`Git 存储库`连接到Fork后的仓库（NodeWarden），并在页面底部将`名称`改回 **NodeWarden**。
+>7. GitHub 仓库 **NodeWarden2** 可以删除了。
+
 </details>
 
 > [!TIP] 
-> 同步上游（更新仓库）：
->- 手动：打开你 Fork 的 GitHub 仓库，看到顶部同步提示后，点击 `Sync fork`。
+> 同步方法（更新仓库）：
+>- 手动：打开你 Fork 的 GitHub 仓库，看到顶部同步提示后，点击 `Sync fork`。（不要点Contribute）
 >- 自动：进入你的 Fork 仓库 -> `Actions`，点击 `I understand my workflows, go ahead and enable them`，启用后，`Sync upstream` 会在每天凌晨 3 点自动同步上游 `main`，并保留你当前的 [wrangler.toml](./wrangler.toml) 配置不被覆盖。
 
 

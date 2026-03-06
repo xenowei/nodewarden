@@ -1,0 +1,59 @@
+name: Import KV ID from NodeWarden2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Import KV namespace id from NodeWarden2
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+          from urllib.request import urlopen
+
+          owner = os.environ["REPO_OWNER"]
+          source_url = f"https://raw.githubusercontent.com/{owner}/nodewarden2/main/wrangler.toml"
+          with urlopen(source_url) as response:
+              source_text = response.read().decode("utf-8")
+
+          source_match = re.search(r'id\s*=\s*"([^"]+)"', source_text)
+          if not source_match:
+              raise SystemExit('No `id = "..."` found in nodewarden2/wrangler.toml')
+
+          kv_id = source_match.group(1)
+
+          target_path = Path("wrangler.toml")
+          target_text = target_path.read_text(encoding="utf-8")
+          target_text, count = re.subn(r'id\s*=\s*"[^"]+"', f'id = "{kv_id}"', target_text, count=1)
+
+          if count == 0:
+              raise SystemExit('No `id = "..."` found in current wrangler.toml')
+
+          target_path.write_text(target_text, encoding="utf-8")
+          PY
+
+      - name: Commit imported KV id
+        run: |
+          git add wrangler.toml
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: import kv id from nodewarden2"
+          git push origin main
